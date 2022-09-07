@@ -6,6 +6,10 @@
 
 package br.com.projeto.view;
 
+import br.com.projeto.dao.ClienteDAO;
+import br.com.projeto.model.Cliente;
+import static java.awt.PageAttributes.MediaType.C;
+
 /**
  *
  * @author renan
@@ -104,6 +108,11 @@ public class FormClientes extends javax.swing.JFrame {
         btnNovo.setText("NOVO");
 
         btnBotao.setText("SALVAR");
+        btnBotao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBotaoActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("EDITAR");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -285,6 +294,17 @@ public class FormClientes extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBotaoActionPerformed
+        // salvar cliente
+        Cliente obj = new Cliente();
+        obj.setNome(txtNome.getText());
+        obj.setSobrenome(txtSobrenome.getText());
+        obj.setSenha(txtSenha.getText());
+        
+        ClienteDAO dao = new ClienteDAO();
+        dao.cadastrarClientes(obj);
+    }//GEN-LAST:event_btnBotaoActionPerformed
 
     /**
      * @param args the command line arguments
