@@ -8,9 +8,12 @@ package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConexaoBanco;
 import br.com.projeto.model.Cliente;
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,4 +47,41 @@ public class ClienteDAO {
         JOptionPane.showMessageDialog(null, "erro!" +erro);
     }
 }
+    //listar clientes
+    public List<Cliente> listarClientes(){
+        try {
+            List<Cliente> lista = new ArrayList<>();
+            
+            //1- instrução sql
+            String sql = "selct * from tb_clientes";
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Cliente obj = new Cliente();
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setSobrenome(rs.getString("sobrenome"));
+                
+                lista.add(obj);
+                
+            }
+            return lista;        
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"erro "+ e);
+        }
+        return null;
+        
+        
+        
+        
+        
+    }
+
+    private static class Clinete {
+
+        public Clinete() {
+        }
+    }
 }

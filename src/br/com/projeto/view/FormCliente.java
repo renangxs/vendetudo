@@ -8,18 +8,36 @@ package br.com.projeto.view;
 
 import br.com.projeto.dao.ClienteDAO;
 import br.com.projeto.model.Cliente;
-import static java.awt.PageAttributes.MediaType.C;
+import java.awt.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author renan
  */
-public class FormClientes extends javax.swing.JFrame {
+public class FormCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form FormClientes
      */
-    public FormClientes() {
+    public void listar(){
+     ClienteDAO dao = new ClienteDAO();
+     List<Cliente> lista = dao.listarClientes();
+     DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+     dados.setNumRows(0);
+     for(Cliente c : lista){
+         dados.addRow(new Object[]{
+         c.getId(),
+         c.getNome(),
+         c.getSobrenome()
+         });
+          
+     }
+     
+    }
+    
+    
+    public FormCliente() {
         initComponents();
     }
 
@@ -35,7 +53,6 @@ public class FormClientes extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         painelDeGuias = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
         guia_dados_pessoais = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -61,6 +78,11 @@ public class FormClientes extends javax.swing.JFrame {
         btnPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -85,19 +107,6 @@ public class FormClientes extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 978, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
-        );
-
-        painelDeGuias.addTab("", jPanel3);
 
         jLabel2.setText("senha:");
 
@@ -301,10 +310,14 @@ public class FormClientes extends javax.swing.JFrame {
         obj.setNome(txtNome.getText());
         obj.setSobrenome(txtSobrenome.getText());
         obj.setSenha(txtSenha.getText());
-        
+
         ClienteDAO dao = new ClienteDAO();
         dao.cadastrarClientes(obj);
     }//GEN-LAST:event_btnBotaoActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    listar();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -323,20 +336,20 @@ public class FormClientes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormClientes().setVisible(true);
+                new FormCliente().setVisible(true);
             }
         });
     }
@@ -361,7 +374,6 @@ public class FormClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane painelDeGuias;
     private javax.swing.JTable tabelaClientes;
